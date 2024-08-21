@@ -10,6 +10,9 @@
  *
  * Return: Always returns 0.
  */
+
+extern char **environ;
+
 int main(void)
 {
 char *line = NULL;
