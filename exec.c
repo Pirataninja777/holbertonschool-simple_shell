@@ -16,7 +16,7 @@ void execute_command(char **args)
 	pid = fork();  /* Create a child process*/
 	if (pid == 0)  /* Child process*/
 	{
-		if (execve(args[0], args, NULL) == -1)  /* Execute the command*/
+		if (execve(args[0], args, environ) == -1)  /* Execute the command*/
 		{
 			perror("Error");
 		}
