@@ -1,0 +1,36 @@
+#include "shell.h"
+
+int main(void)
+{
+    char *line = NULL;
+    size_t len = 0;
+    ssize_t read;
+    char *args[1024];
+
+	while (1)
+	{
+		printf("#cisfun$ ");  /* Display prompt*/
+		read = getline(&line, &len, stdin);  /* Get user input*/
+
+		if (read == -1)  /* Handle EOF (Ctrl+D)*/
+		{
+			printf("\n");
+			break;
+		}
+
+		line[read - 1] = '\0';  /* Remove newline character*/
+		parse_input(line, args);  /* Parse the input into arguments*/
+
+		if (args[0] != NULL)
+		{
+			if (strcmp(args[0], "exit") == 0)  /* Handle exit command*/
+				break;
+			else
+				execute_command(args);  /* Execute the command*/
+		}
+	}
+
+	free(line);
+	return (0);
+}
+
