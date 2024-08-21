@@ -18,7 +18,7 @@ int main(void)
 char *line = NULL;
 size_t len = 0;
 ssize_t read;
-char *args[1024];
+char *args[2];
 
 	while (1)
 	{

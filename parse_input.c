@@ -11,13 +11,19 @@
  */
 void parse_input(char *line, char **args)
 {
+	args[0] = strtok(line, " ");
+	args[1] = NULL;
+}
+
+/*
+{
 	int i = 0;
 
-	args[i] = strtok(line, " ");  /* Split line into tokens by spaces*/
+	args[i] = strtok(line, " ");   Split line into tokens by spaces
 	while (args[i] != NULL)
 	{
 		i++;
 		args[i] = strtok(NULL, " ");
 	}
 }
-
+*/
