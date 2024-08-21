@@ -31,6 +31,13 @@ char *args[1024];
 			break;
 		}
 
+		if (line == NULL)
+		{
+			if (isatty(STDIN_FILENO))
+				write(STDOUT_FILENO, "\n", 1);
+			return (read);
+		}
+
 		line[read - 1] = '\0';  /* Remove newline character*/
 		parse_input(line, args);  /* Parse the input into arguments*/
 
