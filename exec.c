@@ -8,6 +8,9 @@
  * in `args[0]` using `execve`. If the execution fails, an error message
  * is printed. The parent process waits for the child process to complete.
  */
+
+extern char **environ;
+
 void execute_command(char **args)
 {
 	pid_t pid;
