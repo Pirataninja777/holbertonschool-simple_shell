@@ -22,9 +22,10 @@ char *args[1024];
 
 	while (1)
 	{
-		printf("#cisfun$ ");  /* Display prompt*/
-		read = getline(&line, &len, stdin);  /* Get user input*/
+		if (isatty(STDIN_FILENO))
+			printf("#cisfun$ ");  /* Display prompt*/
 
+		read = getline(&line, &len, stdin);  /* Get user input*/
 		if (read == -1)  /* Handle EOF (Ctrl+D)*/
 		{
 			printf("\n");
