@@ -1,11 +1,21 @@
 #include "shell.h"
 
+/**
+ * main - Entry point of the simple shell program.
+ *
+ * Description: This program implements a simple shell that repeatedly
+ * prompts the user for input, parses the input into arguments, and
+ * executes the corresponding command. The shell continues to run until
+ * the user inputs the "exit" command or sends an EOF (Ctrl+D).
+ *
+ * Return: Always returns 0.
+ */
 int main(void)
 {
-    char *line = NULL;
-    size_t len = 0;
-    ssize_t read;
-    char *args[1024];
+char *line = NULL;
+size_t len = 0;
+ssize_t read;
+char *args[1024];
 
 	while (1)
 	{
@@ -25,7 +35,7 @@ int main(void)
 		{
 			if (strcmp(args[0], "exit") == 0)  /* Handle exit command*/
 				break;
-			else
+
 				execute_command(args);  /* Execute the command*/
 		}
 	}
