@@ -1,7 +1,5 @@
 #include "shell.h"
 
-#define MAX_ARGS 1000
-
 /**
  * main - entry point of the simple shell program
  *
