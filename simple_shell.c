@@ -33,7 +33,7 @@ char *args[2];
 		if (read == -1)  /* Handle EOF (Ctrl+D)*/
 
 		{
-			printf("%s/%s$ ", getenv("USER"), getenv("PWD"));
+			printf("%s$ ", getenv("USER"));
 			fflush(stdout);
 		}
 
@@ -59,12 +59,12 @@ char *args[2];
 
 		if (args[0] != NULL)
 		{
-			if (strcmp(args[0], "exit") == 0)
+			/*if (strcmp(args[0], "exit") == 0)
 			{
 				free(args);
 				free(line);
 				exit(EXIT_SUCCESS);
-			}
+			}*/
 			exec(args);
 		}
 
