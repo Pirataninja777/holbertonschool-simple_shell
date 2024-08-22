@@ -21,7 +21,7 @@ int main(void)
 	{
 		if (isatty(STDIN_FILENO))
 		{
-			printf("%s/%s$ ", getenv("USER"), getenv("PWD"));
+			printf("%s$ ", getenv("USER"));
 			fflush(stdout);
 		}
 
