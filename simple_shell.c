@@ -13,60 +13,43 @@
 int main(void)
 {
 	char *line = NULL;
-	char **args;
-	size_t line_size = 0;
-	ssize_t bytes_read;
-
+	char *args[MAX_ARGS];
+	size_t lineSize = 0;
+	ssize_t bytesRead;
 
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
-
-
-			printf("#cisfun$ ");  /* Display prompt*/
-
-		read = getline(&line, &len, stdin);  /* Get user input*/
-		if (read == -1)  /* Handle EOF (Ctrl+D)*/
-
 		{
-			printf("%s$ ", getenv("USER"));
+			printf("%s/%s$ ", getenv("USER"), getenv("PWD"));
 			fflush(stdout);
 		}
-
-		bytes_read = getline(&line, &line_size, stdin);
-		if (bytes_read == EOF)
+		bytesRead = getline(&line, &lineSize, stdin);
+		if (bytesRead == EOF)
 		{
-			free(line);
-			exit(EXIT_SUCCESS);
-		}
-
-		line[bytes_read - 1] = '\0';
-
-		args = malloc(MAX_ARGS * sizeof(char *));
-		if (args == NULL)
-		{
-			perror("malloc failed");
-			free(line);
-			exit(EXIT_FAILURE);
-		}
-
-		tokenize(line, args, MAX_ARGS);
-
-		if (args[0] != NULL)
-		{
-			/*if (strcmp(args[0], "exit") == 0)
 			{
-				free(args);
 				free(line);
 				exit(EXIT_SUCCESS);
-			}*/
+			}
+			free(line);
+			perror("Error");
+			continue;
+
+		}
+		line[bytesRead - 1] = '\0';
+		tokenize(line, args, MAX_ARGS);
+		tokenize(line, args, MAX_ARGS);
+		if (args[0] != NULL)
+		{
+			if (strcmp(args[0], "exit") == 0)
+			{
+				free(line);
+				exit(EXIT_SUCCESS);
+			}
 			exec(args);
 		}
-
-		free(args);
+		memset(args, 0, sizeof(args));
 	}
-
 	free(line);
 	return (0);
 }
-
