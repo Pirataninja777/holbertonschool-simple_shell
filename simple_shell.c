@@ -1,55 +1,86 @@
-#include "shell.h"
+#include "main.h"
 
 /**
- * main - entry point of the simple shell program
- *
- * Description: This program implements a simple shell that repeatedly
- * prompts the user for input, parses the input into arguments, and
- * executes the corresponding command. The shell continues to run until
- * the user inputs the "exit" command or sends an EOF (Ctrl+D).
- *
- * Return: Always returns 0 on success.
- */
-int main(void)
-{
-	char *line = NULL;
-	char *args[MAX_ARGS];
-	size_t lineSize = 0;
-	ssize_t bytesRead;
+ * main - execute a simple shell
+ * @argc: a count of argumentos on argv
+ * @argv: vector of arguments given to shell
+ * Return: 0 on success and stat on exit
+*/
 
-	while (1)
-	{
-		if (isatty(STDIN_FILENO))
-		{
-			printf("%s/%s$ ", getenv("USER"), getenv("PWD"));
-			fflush(stdout);
-		}
-		bytesRead = getline(&line, &lineSize, stdin);
-		if (bytesRead == EOF)
-		{
-			{
-				free(line);
-				exit(EXIT_SUCCESS);
-			}
+int main(__attribute__((unused)) int argc, char *argv[])
+{	int count = 1, status = 1, free_;
+	ssize_t _exit_ = 0;
+	token_t *args_token = NULL, *path_token = NULL, *command = NULL;
+	char *line = NULL, **array = NULL;
+
+	while (status >= 0)
+	{	free_ = 0;
+		line = Read_line(&_exit_);
+		if (strcmp(line, "env\n") == 0)
+		{	_env();
 			free(line);
-			perror("Error");
-			continue;
-
-		}
-		line[bytesRead - 1] = '\0';
-		tokenize(line, args, MAX_ARGS);
-		tokenize(line, args, MAX_ARGS);
-		if (args[0] != NULL)
+			continue; }
+		args_token = tokenicer(line, " \t\r\n\a");
+		if (!args_token)
+		{	free(line);
+			continue; }
+		path_token = _getenv("PATH=");
+		command = _stat_checker(args_token, path_token);
+		if (!command)
+		{	_exit_ = 1;
+			fprintf(stderr, "%s: %d: %s: not found\n", argv[0], count, line);
+			free(line);
+			count++;
+			continue; }
+		else
+			_exit_ = 0;
+		array = _list_to_array(args_token);
+		status = _EXE_Cute(array);
+		if (status == 512)
+			_exit_ = 2;
+		while (array[free_])
 		{
-			if (strcmp(args[0], "exit") == 0)
-			{
-				free(line);
-				exit(EXIT_SUCCESS);
-			}
-			exec(args);
+			free(array[free_]);
+			free_++;
 		}
-		memset(args, 0, sizeof(args));
+		free(array);
+		free(line);
+		count++; }
+	return (0); }
+
+/**
+ * Read_line - prints a prompt and read user input
+ * @_exit_: a count of argumentos on argv
+ * Return: 0 on success and stat on exit
+*/
+
+char *Read_line(ssize_t *_exit_)
+{
+	int num = 0;
+	char *str = NULL;
+	size_t size = 0;
+	int fd = isatty(num);
+
+	if (fd == 1)
+		printf("DEPS -> ");
+
+	if (getline(&str, &size, stdin) == -1)
+	{
+		free(str);
+		if (*_exit_ == 0)
+			exit(0);
+		else if (*_exit_ == 1)
+			exit(127);
+		exit(2);
 	}
-	free(line);
-	return (0);
+	else if (strcmp(str, "exit\n") == 0)
+	{
+		free(str);
+		if (*_exit_ == 0)
+			exit(0);
+		else if (*_exit_ == 1)
+			exit(127);
+		exit(2);
+	}
+	return (str);
 }
