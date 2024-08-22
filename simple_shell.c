@@ -34,7 +34,6 @@ int main(void)
 
 		line[bytes_read - 1] = '\0';
 
-		/* Allocate memory for args */
 		args = malloc(MAX_ARGS * sizeof(char *));
 		if (args == NULL)
 		{
@@ -56,7 +55,6 @@ int main(void)
 			exec(args);
 		}
 
-		/* Free allocated memory for args */
 		free(args);
 	}
 
