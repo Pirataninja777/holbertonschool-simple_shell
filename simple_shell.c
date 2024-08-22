@@ -1,51 +1,65 @@
-#include "shell.h"
+#include "main.h"
+
+#define MAX_ARGS 1000
 
 /**
- * main - Entry point of the simple shell program.
+ * main - entry point of the simple shell program
  *
  * Description: This program implements a simple shell that repeatedly
  * prompts the user for input, parses the input into arguments, and
  * executes the corresponding command. The shell continues to run until
  * the user inputs the "exit" command or sends an EOF (Ctrl+D).
  *
- * Return: Always returns 0.
+ * Return: Always returns 0 on success.
  */
-
 int main(void)
 {
-char *line = NULL;
-size_t len = 0;
-ssize_t read;
-char *args[1024];
+	char *line = NULL;
+	char **args;
+	size_t line_size = 0;
+	ssize_t bytes_read;
 
 	while (1)
 	{
-		printf("#cisfun$ ");  /* Display prompt*/
-		read = getline(&line, &len, stdin);  /* Get user input*/
-
-		if (read == -1)  /* Handle EOF (Ctrl+D)*/
+		if (isatty(STDIN_FILENO))
 		{
-			printf("\n");
-			break;
+			printf("%s/%s$ ", getenv("USER"), getenv("PWD"));
+			fflush(stdout);
 		}
 
-		if (line == NULL)
+		bytes_read = getline(&line, &line_size, stdin);
+		if (bytes_read == EOF)
 		{
-			if (isatty(STDIN_FILENO))
-				write(STDOUT_FILENO, "\n", 1);
-			return (read);
+			free(line);
+			exit(EXIT_SUCCESS);
 		}
 
-		line[read - 1] = '\0';  /* Remove newline character*/
-		parse_input(line, args);  /* Parse the input into arguments*/
+		line[bytes_read - 1] = '\0';
+
+		/* Allocate memory for args */
+		args = malloc(MAX_ARGS * sizeof(char *));
+		if (args == NULL)
+		{
+			perror("malloc failed");
+			free(line);
+			exit(EXIT_FAILURE);
+		}
+
+		tokenize(line, args, MAX_ARGS);
 
 		if (args[0] != NULL)
 		{
-			/*if (strcmp(args[0], "exit") == 0)
-				break;*/
-
-			execute_command(args);  /* Execute the command*/
+			if (strcmp(args[0], "exit") == 0)
+			{
+				free(args);
+				free(line);
+				exit(EXIT_SUCCESS);
+			}
+			exec(args);
 		}
+
+		/* Free allocated memory for args */
+		free(args);
 	}
 
 	free(line);
