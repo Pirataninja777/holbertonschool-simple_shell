@@ -1,11 +1,11 @@
 #include "shell.h"
-
 /**
  * find_path - finds the full path of a command
  * @command: command to find
  *
  * Return: full path of command, NULL if not found
  */
+
 char *find_path(char *command)
 {
 	char *path = getenv("PATH");
@@ -17,7 +17,6 @@ char *find_path(char *command)
 	{
 		return (strdup(command));
 	}
-
 	if (path == NULL)
 	{
 		fprintf(stderr, "PATH variable not set\n");
@@ -30,12 +29,6 @@ char *find_path(char *command)
 	while (token != NULL)
 	{
 		path_buffer = malloc(strlen(token) + strlen(command) + 2);
-		if (path_buffer == NULL)
-		{
-			free(path_copy);
-			return (NULL);
-		}
-
 		sprintf(path_buffer, "%s/%s", token, command);
 
 		if (stat(path_buffer, &st) == 0)
@@ -51,4 +44,3 @@ char *find_path(char *command)
 	free(path_copy);
 	return (NULL);
 }
-
