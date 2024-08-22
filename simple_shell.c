@@ -16,10 +16,22 @@ int main(void)
 	char **args;
 	size_t line_size = 0;
 	ssize_t bytes_read;
+char *line = NULL;
+size_t len = 0;
+ssize_t read;
+char *args[2];
+
 
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
+
+
+			printf("#cisfun$ ");  /* Display prompt*/
+
+		read = getline(&line, &len, stdin);  /* Get user input*/
+		if (read == -1)  /* Handle EOF (Ctrl+D)*/
+
 		{
 			printf("%s/%s$ ", getenv("USER"), getenv("PWD"));
 			fflush(stdout);
