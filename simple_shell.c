@@ -41,8 +41,8 @@ char *args[1024];
 
 		if (args[0] != NULL)
 		{
-			if (strcmp(args[0], "exit") == 0)  /* Handle exit command*/
-				break;
+			/*if (strcmp(args[0], "exit") == 0)
+				break;*/
 
 			execute_command(args);  /* Execute the command*/
 		}
