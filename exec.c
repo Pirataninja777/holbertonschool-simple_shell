@@ -8,8 +8,8 @@
 void exec(char **args)
 {
 	char *line = NULL;
-	int status, status_exit;
-	pid_t child_pid;
+	int status, statusExit;
+	pid_t childPid;
 	char *command_path;
 
 	command_path = find_path(args[0]);
@@ -21,13 +21,11 @@ void exec(char **args)
 			return;
 		}
 	}
-
-	child_pid = fork();
-	if (child_pid == -1)
-	{
+	childPid = fork();
+	if (childPid == -1)
 		perror("fork");
-	}
-	else if (child_pid == 0)
+
+	else if (childPid == 0)
 	{
 		if (execve(command_path, args, environ) == -1)
 		{
@@ -38,17 +36,12 @@ void exec(char **args)
 		}
 	}
 	else
-	{
 		wait(&status);
-	}
-
 	if (WIFEXITED(status))
 	{
-		status_exit = WEXITSTATUS(status);
-		if (status_exit != 0)
-		{
+		statusExit = WEXITSTATUS(status);
+		if (statusExit != 0)
+
 			free(command_path);
-		}
 	}
 }
-
