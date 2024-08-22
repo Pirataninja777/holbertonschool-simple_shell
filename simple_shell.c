@@ -16,10 +16,6 @@ int main(void)
 	char **args;
 	size_t line_size = 0;
 	ssize_t bytes_read;
-char *line = NULL;
-size_t len = 0;
-ssize_t read;
-char *args[2];
 
 
 	while (1)
