@@ -5,50 +5,57 @@
  * @args: arguments to execute
  * Return: void
  */
+
 void exec(char **args)
 {
-	char *line = NULL;
-	int status, status_exit;
-	pid_t child_pid;
 	char *command_path;
+	pid_t childPid;
+	int status;
+	int statusExit;
+
+	if (args == NULL || args[0] == NULL)
+	{
+		fprintf(stderr, "No command provided\n");
+		return;
+	}
 
 	command_path = find_path(args[0]);
-	if (access(args[0], X_OK) != 0)
+
+	if (command_path == NULL && access(args[0], X_OK) != 0)
 	{
-		if (command_path == NULL)
-		{
-			fprintf(stderr, "%s: command not found\n", args[0]);
-			return;
-		}
+		fprintf(stderr, "%s: command not found\n", args[0]);
+		return;
 	}
 
-	child_pid = fork();
-	if (child_pid == -1)
+	childPid = fork();
+	if (childPid == -1)
 	{
 		perror("fork");
+		free(command_path);
+		return;
 	}
-	else if (child_pid == 0)
+
+	if (childPid == 0)
 	{
-		if (execve(command_path, args, environ) == -1)
+		if (execve(command_path ? command_path : args[0], args, environ) == -1)
 		{
-			fprintf(stderr, "%s: command not found\n", args[0]);
-			free(line);
-			free(args[0]);
+			perror("execve");
+			free(command_path);
 			exit(EXIT_FAILURE);
 		}
 	}
 	else
 	{
-		wait(&status);
-	}
-
-	if (WIFEXITED(status))
-	{
-		status_exit = WEXITSTATUS(status);
-		if (status_exit != 0)
+		if (waitpid(childPid, &status, 0) == -1)
 		{
-			free(command_path);
+			perror("waitpid");
+		}
+
+		if (WIFEXITED(status))
+		{
+			statusExit = WEXITSTATUS(status);
 		}
 	}
-}
 
+	free(command_path);
+}
