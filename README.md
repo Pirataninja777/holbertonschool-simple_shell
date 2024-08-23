@@ -49,9 +49,7 @@ int main(void)
 
     return 0;
 }
-
-
-
+```
 
 -##Contributing
 
@@ -65,3 +63,4 @@ To compile the project, ensure you have a C compiler compatible with the GNU89 s
 git clone git@github.com:Pirataninja777/holbertonschool-simple_shell.git
 cd holbertonschool-simple_shell
 gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o simple_shell
+```
