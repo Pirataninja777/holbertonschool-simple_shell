@@ -64,3 +64,9 @@ git clone git@github.com:Pirataninja777/holbertonschool-simple_shell.git
 cd holbertonschool-simple_shell
 gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o simple_shell
 ```
+## Usage
+
+Run the program with:
+
+```bash
+./simple_shell
