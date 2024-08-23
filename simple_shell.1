@@ -1,0 +1,67 @@
+### Man Page (`simple_shell.1`)
+
+```man
+.\" Manpage for simple_shell
+.TH SIMPLE_SHELL 1 "August 2024" "1.0" "User Commands"
+.SH NAME
+simple_shell \- A simple shell implementation in C
+.SH SYNOPSIS
+.B simple_shell
+.SH DESCRIPTION
+The
+.B simple_shell
+program is a basic shell that reads commands from the user, tokenizes them, and executes them. It supports printing environment variables and basic command execution. It also verifies command existence in the `PATH`, concatenates strings, and tokenizes input strings.
+
+.SH COMMANDS
+.TP
+.B env
+Prints all environment variables.
+.TP
+.B exit
+Exits the shell. The exit code depends on the current state of the shell.
+
+.SH EXIT STATUS
+.TP
+0
+Successful execution of commands or normal exit.
+.TP
+127
+Command not found.
+.TP
+2
+Command executed with errors.
+
+.SH USAGE
+The shell displays a prompt "DEPS ->" for user input. After entering a command, press Enter to execute. To view environment variables, type `env`. To exit the shell, type `exit`.
+
+.SH FUNCTIONS
+.TP
+.B tokenicer
+Tokenizes an input string using a delimiter and stores the tokens in a linked list.
+.TP
+.B add_node_end
+Adds a node to the end of a linked list.
+.TP
+.B free_list
+Frees the memory of a linked list.
+.TP
+.B _getenv
+Searches and extracts the value of an environment variable.
+.TP
+.B _stat_checker
+Checks the status of a command in different paths specified in the `PATH` environment variable. Returns a valid path if the command is found.
+.TP
+.B _list_to_array
+Converts a linked list into an array of strings.
+.TP
+.B _EXE_Cute
+Executes a command on the system.
+.TP
+.B _env
+Prints all environment variables.
+.TP
+.B _concat
+Concatenates two strings.
+
+.SH AUTHOR
+Developed by Omar Maldonado and Abraham Vidal.
