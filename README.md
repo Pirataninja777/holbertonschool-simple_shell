@@ -18,6 +18,35 @@ This project implements a basic shell in C. The shell allows reading and executi
 |`_env`|Prints all environment variables.|
 |`_concat`|Concatenates two strings.|
 
+## Example Usage
+
+```c
+#include "shell.h"
+
+int main(void)
+{
+    char **args;
+    token_t *path_tokens;
+
+    /* Example usage of _getenv */
+    path_tokens = _getenv("PATH");
+
+    /* Example usage of _stat_checker */
+    token_t *cmd_tokens = tokenicer("ls -l", " ");
+    cmd_tokens = _stat_checker(cmd_tokens, path_tokens);
+
+    /* Example usage of _list_to_array */
+    args = _list_to_array(cmd_tokens);
+
+    /* Example usage of _EXE_Cute */
+    _EXE_Cute(args);
+
+    /* Don't forget to free memory when done */
+    free_list(path_tokens);
+    free(args);
+
+    return 0;
+}
 
 ## Installation
 
