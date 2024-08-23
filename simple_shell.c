@@ -62,7 +62,7 @@ char *Read_line(ssize_t *_exit_)
 	int fd = isatty(num);
 
 	if (fd == 1)
-		printf("DEPS -> ");
+		printf("prompt$ ");
 
 	if (getline(&str, &size, stdin) == -1)
 	{
