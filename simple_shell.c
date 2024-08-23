@@ -32,7 +32,6 @@ int main(int argc, char *argv[])
 
 		if (read == -1)
 		{
-			printf("\n");
 			break;
 		}
 
